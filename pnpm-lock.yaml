@@ -136,8 +136,8 @@ importers:
         specifier: 8.49.0
         version: 8.49.0
       sharp:
-        specifier: 0.32.5
-        version: 0.32.5
+        specifier: 0.32.6
+        version: 0.32.6
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -4696,15 +4696,15 @@ packages:
       read-yaml-file: 1.1.0
     dev: true
 
-  /@maxim_mazurok/gapi.client.discovery-v1@0.0.20200806:
-    resolution: {integrity: sha512-0pZtrElj8bc0YROIo7nH8VVvks/iww/L68l7r74oC9+ksSVO3Lum1zUR8dXTvJ7TqLGaNYiiNaUZianK6doh/w==}
+  /@maxim_mazurok/gapi.client.discovery-v1@0.1.20200806:
+    resolution: {integrity: sha512-Wl6UfmZVDdWbY3PUu8E2ULk9RPLjnMqp/iOA4tcK8Ne+U/GmlnWP/e34IaZNGArfl7iXJNOG+/3Rj9L9jQyF9Q==}
     dependencies:
       '@types/gapi.client': 1.0.5
-      '@types/gapi.client.discovery': 1.0.9
+      '@types/gapi.client.discovery-v1': 0.0.1
     dev: true
 
-  /@maxim_mazurok/gapi.client.tagmanager-v2@0.0.20230911:
-    resolution: {integrity: sha512-xeY3dMbTlTCg3iCTdNAqJGyDzDcS1lMatnq3Yogq3tn0YMdrM+l0On4N+YOAZmVGZ6ThdrzbV9qMw+V4PuKeCQ==}
+  /@maxim_mazurok/gapi.client.tagmanager-v2@0.0.20240102:
+    resolution: {integrity: sha512-gWo0+jmKDuRj8+afxXQGxl1XpvuAX1sO1tOD+goGlDvR+U9B3ioIFXJqIcOCbgUouU3oxlBAmLmkOzGUw6HUsw==}
     dependencies:
       '@types/gapi.client': 1.0.5
       '@types/gapi.client.discovery-v1': 0.0.1
@@ -6648,7 +6648,7 @@ packages:
       '@babel/core': 7.21.8
       '@babel/preset-env': 7.20.2(@babel/core@7.21.8)
       '@babel/types': 7.21.5
-      '@storybook/csf': 0.1.1-next.0
+      '@storybook/csf': 0.1.2-next.0
       '@storybook/csf-tools': 7.0.0-rc.5
       '@storybook/node-logger': 7.0.0-rc.5
       '@storybook/types': 7.0.0-rc.5
@@ -6690,7 +6690,7 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@storybook/client-logger': 7.0.0-rc.5
-      '@storybook/csf': 0.1.1-next.0
+      '@storybook/csf': 0.1.2-next.0
       '@storybook/global': 5.0.0
       '@storybook/theming': 7.0.0-rc.5(react-dom@18.2.0)(react@18.2.0)
       '@storybook/types': 7.0.0-rc.5
@@ -6807,9 +6807,9 @@ packages:
       '@storybook/builder-manager': 7.0.0-rc.5
       '@storybook/core-common': 7.0.0-rc.5
       '@storybook/core-events': 7.0.0-rc.5
-      '@storybook/csf': 0.1.1-next.0
+      '@storybook/csf': 0.1.2-next.0
       '@storybook/csf-tools': 7.0.0-rc.5
-      '@storybook/docs-mdx': 0.1.1-next.0
+      '@storybook/docs-mdx': 0.1.1-next.3
       '@storybook/global': 5.0.0
       '@storybook/manager': 7.0.0-rc.5
       '@storybook/node-logger': 7.0.0-rc.5
@@ -6920,7 +6920,7 @@ packages:
       '@babel/parser': 7.21.9
       '@babel/traverse': 7.21.5
       '@babel/types': 7.21.5
-      '@storybook/csf': 0.1.1-next.0
+      '@storybook/csf': 0.1.2-next.0
       '@storybook/types': 7.0.0-rc.5
       fs-extra: 11.1.1
       recast: 0.23.3
@@ -6957,8 +6957,8 @@ packages:
       type-fest: 2.19.0
     dev: true
 
-  /@storybook/csf@0.1.1-next.0:
-    resolution: {integrity: sha512-2M8E4CZOVW77P9lrgZZc2rcwxhNKVVykpzbcAauc3bots7xvDJMG60EasMRB/Y+cfqnSu6aaSUEVmKHTKsVJ3A==}
+  /@storybook/csf@0.1.2-next.0:
+    resolution: {integrity: sha512-Kf9XPAnO9VBxxYWNiW3pc1t7lDZ178VFfTCVWOm9r6Fdzm94j3zUNT06WiOojblVVaKsJktk8cT9b27Fmcxs5Q==}
     dependencies:
       type-fest: 2.19.0
     dev: true
@@ -6967,8 +6967,8 @@ packages:
     resolution: {integrity: sha512-JDaBR9lwVY4eSH5W8EGHrhODjygPd6QImRbwjAuJNEnY0Vw4ie3bPkeGfnacB3OBW6u/agqPv2aRlR46JcAQLg==}
     dev: true
 
-  /@storybook/docs-mdx@0.1.1-next.0:
-    resolution: {integrity: sha512-t5gehdVj1GxicE2W3mslaqaLGKg6u1wZRySVrWNM4Ue7PmuI0LvJDLcOcaIzizc4Duh+JljMvShK8NTaxhE1PA==}
+  /@storybook/docs-mdx@0.1.1-next.3:
+    resolution: {integrity: sha512-gdjVot7Lphf1LZnd9Bi3d3bCVMxDEoJGId1fYpaABpx+sMxeO3w2QA24fPeHa8jlRsEPY/W1p34jxPmu57KaHQ==}
     dev: true
 
   /@storybook/docs-tools@7.4.1:
@@ -7008,7 +7008,7 @@ packages:
       '@storybook/channels': 7.0.0-rc.5
       '@storybook/client-logger': 7.0.0-rc.5
       '@storybook/core-events': 7.0.0-rc.5
-      '@storybook/csf': 0.1.1-next.0
+      '@storybook/csf': 0.1.2-next.0
       '@storybook/global': 5.0.0
       '@storybook/router': 7.0.0-rc.5(react-dom@18.2.0)(react@18.2.0)
       '@storybook/theming': 7.0.0-rc.5(react-dom@18.2.0)(react@18.2.0)
@@ -7095,7 +7095,7 @@ packages:
       '@storybook/channels': 7.0.0-rc.5
       '@storybook/client-logger': 7.0.0-rc.5
       '@storybook/core-events': 7.0.0-rc.5
-      '@storybook/csf': 0.1.1-next.0
+      '@storybook/csf': 0.1.2-next.0
       '@storybook/global': 5.0.0
       '@storybook/types': 7.0.0-rc.5
       '@types/qs': 6.9.7
@@ -7786,21 +7786,14 @@ packages:
   /@types/gapi.client.discovery-v1@0.0.1:
     resolution: {integrity: sha512-xHW6FW+ERNxqFYNhC6yo1yZjBMmigqQIkX11VY8S6NFteZAX8eWpzvSrmmwFEUm4OOLTJhz8dxEyUAs4ltIMnw==}
     dependencies:
-      '@maxim_mazurok/gapi.client.discovery-v1': 0.0.20200806
-    dev: true
-
-  /@types/gapi.client.discovery@1.0.9:
-    resolution: {integrity: sha512-51fXpt7DM7+zPG5pgwnNr3KaRXmyszznu66VPpV7+FAu0LGtpTohvdfvkRCnCn2Z6EgNTq/baFAtCa/9ylHOug==}
-    deprecated: use @types/gapi.client.discovery-v1 instead; see https://github.com/Maxim-Mazurok/google-api-typings-generator/issues/652 for details
-    dependencies:
-      '@maxim_mazurok/gapi.client.discovery-v1': 0.0.20200806
+      '@maxim_mazurok/gapi.client.discovery-v1': 0.1.20200806
     dev: true
 
   /@types/gapi.client.tagmanager@2.0.4:
     resolution: {integrity: sha512-OEB3jLL3/RkMfxpHaasabPixLezODrUTyYOpOTH1zzJPHvyc8McHRxpYHAHAurJpVUe93yFoiKkXr5f3DJKrdg==}
     deprecated: use @types/gapi.client.tagmanager-v2 instead; see https://github.com/Maxim-Mazurok/google-api-typings-generator/issues/652 for details
     dependencies:
-      '@maxim_mazurok/gapi.client.tagmanager-v2': 0.0.20230911
+      '@maxim_mazurok/gapi.client.tagmanager-v2': 0.0.20240102
     dev: true
 
   /@types/gapi.client@1.0.5:
@@ -19831,8 +19824,8 @@ packages:
       kind-of: 6.0.3
     dev: true
 
-  /sharp@0.32.5:
-    resolution: {integrity: sha512-0dap3iysgDkNaPOaOL4X/0akdu0ma62GcdC2NBQ+93eqpePdDdr2/LM0sFdDSMmN7yS+odyZtPsb7tx/cYBKnQ==}
+  /sharp@0.32.6:
+    resolution: {integrity: sha512-KyLTWwgcR9Oe4d9HwCwNM2l7+J0dUQwn/yf7S0EnTtb0eVS4RxO0eUSvxPtzT4F3SY+C4K6fqdv/DO27sJ/v/w==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
