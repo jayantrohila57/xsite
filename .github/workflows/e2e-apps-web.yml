@@ -1,0 +1,110 @@
+---
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    # Only consider those paths to trigger the action
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'pnpm*'
+      - '.github/**'
+      - 'tsconfig.base.json'
+
+name: 🧪 E2E testing for web app
+
+env:
+  DISABLE_SENTRY: false
+  SENTRY_LOG_LEVEL: debug
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+  SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+  SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+  SENTRY_URL: ${{ secrets.SENTRY_URL }}
+  SENTRY_UPLOAD_DRY_RUN: true
+  NEXTAUTH_URL: http://localhost:3000
+  NEXTAUTH_SECRET: secret-string-only-for-ci
+  APP_CACHE_DSN: ''
+
+jobs:
+  e2e:
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - 'ubuntu-latest'
+        node:
+          - '18'
+        include:
+          - os: 'ubuntu-latest'
+            playwright_binary_path: ~/.cache/ms-playwright
+    env:
+      TURBO_API: 'http://127.0.0.1:9080'
+      TURBO_TEAM: 'next-starter-tpl'
+      TURBO_TOKEN: 'local_server_turbo_relaxed_token'
+
+    steps:
+      - name: 📦 Check out the codebase
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+
+      - name: ⚙️ Setup node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 🚀 Setup TurboRepo local server
+        uses: felixmosh/turborepo-gh-artifacts@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          server-token: ${{ env.TURBO_TOKEN }}
+
+      - name: 📥 Monorepo install
+        uses: wayofdev/gh-actions/actions/pnpm-install@master
+        with:
+          enable-corepack: true
+          cache-node-modules: true
+
+      # see https://github.com/vercel/next.js/pull/27362
+      - name: ♻️ Restore "web" app build from cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/apps/web/.next/cache
+            ${{ github.workspace }}/.cache
+            ${{ github.workspace }}/**/tsconfig.tsbuildinfo
+          key: web-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: 🏗 Build web-app
+        working-directory: apps/web
+        run: |
+          pnpm --filter=web build
+        env:
+          NEXT_IGNORE_ESLINT: true
+          NEXT_IGNORE_TYPE_CHECK: true
+          NEXT_DISABLE_SOURCEMAPS: true
+          NEXT_TELEMETRY_DISABLED: true
+
+      - name: 📥 Install playwright
+        uses: wayofdev/gh-actions/actions/playwright-install@master
+
+      - name: 🧪 Run E2E playwright tests on web app
+        uses: BerniWittmann/background-server-action@v1
+        with:
+          cwd: apps/web
+          command: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm --filter=web test:e2e
+          start: pnpm dev
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 30
+        env:
+          CI: 1
+
+      - name: 📤 Upload testing artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: web-app-playwright-test-results-${{ runner.os }}
+          path: apps/web/e2e/.out

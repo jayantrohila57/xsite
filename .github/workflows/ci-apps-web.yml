@@ -1,0 +1,115 @@
+---
+on: # yamllint disable-line rule:truthy
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    # Only consider those paths to trigger the action
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'pnpm*'
+      - '.github/**'
+      - 'tsconfig.base.json'
+
+name: 🔍 Continuous integration for web app
+
+jobs:
+  integration:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: ['ubuntu-latest']
+        node: ['18']
+    env:
+      TURBO_API: 'http://127.0.0.1:9080'
+      TURBO_TEAM: 'next-starter-tpl'
+      TURBO_TOKEN: 'local_server_turbo_relaxed_token'
+
+    steps:
+      - name: 📦 Check out the codebase
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+
+      - name: ⚙️ Setup node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: 🚀 Setup TurboRepo local server
+        uses: felixmosh/turborepo-gh-artifacts@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          server-token: ${{ env.TURBO_TOKEN }}
+
+      - name: 📥 Monorepo install
+        uses: wayofdev/gh-actions/actions/pnpm-install@master
+        with:
+          enable-corepack: true
+          cache-node-modules: true
+
+      # see https://github.com/vercel/next.js/pull/27362
+      - name: ♻️ Restore "web" app build from cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/apps/web/.next/cache
+            ${{ github.workspace }}/.cache
+            ${{ github.workspace }}/**/tsconfig.tsbuildinfo
+          key: web-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: 📝 Typecheck
+        working-directory: apps/web
+        run: |
+          pnpm lint:types
+
+      - name: 🚨 Linter
+        working-directory: apps/web
+        run: |
+          pnpm lint
+
+      - name: 🧪 Unit tests
+        working-directory: apps/web
+        run: |
+          pnpm test
+
+      - name: 🏗 Build web-app
+        working-directory: apps/web
+        run: |
+          pnpm --filter=web build
+        env:
+          NEXTAUTH_URL: http://localhost:3000
+          NEXTAUTH_SECRET: secret-string-only-for-ci
+          APP_CACHE_DSN: ''
+          # Speed up build: they are linted in a previous step
+          NEXT_IGNORE_ESLINT: true
+          # Speed up build: they are type-checked in a previous step
+          NEXT_IGNORE_TYPE_CHECK: true
+          # Speed up build: don't run if not needed, enable if it becomes needed
+          NEXT_DISABLE_SOURCEMAPS: true
+          # Don't send telemetry for ci
+          NEXT_TELEMETRY_DISABLED: true
+          # To allow checking size-limits
+          DISABLE_SENTRY: false
+          # Fully disable sentry upload
+          SENTRY_UPLOAD_DRY_RUN: true
+
+      - name: 📉 Check browser bundle size limits
+        working-directory: apps/web
+        run: |
+          pnpm --filter=web lint:size
+
+      - name: 🌎 Ecmascript checks for build files
+        working-directory: apps/web
+        run: |
+          pnpm --filter=web lint:dist
+
+      - name: 📤 Upload coverage report to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./apps/web/coverage/coverage-final.json
+          flags: web

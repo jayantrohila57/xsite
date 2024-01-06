@@ -1,0 +1,33 @@
+{
+  "name": "@wayofdev/docs",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --port 3001",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs,.mdx --cache --cache-location ../../.cache/eslint/docs.eslintcache",
+    "lint:dist": "es-check -v",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs,.mdx --fix",
+    "lint:types": "tsc --project ./tsconfig.json --noEmit",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@vercel/analytics": "1.0.2",
+    "@wayofdev/ui": "workspace:*",
+    "next": "13.4.19",
+    "nextra": "2.12.3",
+    "nextra-theme-docs": "2.12.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.6.0",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "@wayofdev/eslint-config-bases": "3.0.1",
+    "es-check": "7.1.1",
+    "eslint": "8.49.0",
+    "sharp": "0.32.5",
+    "typescript": "5.2.2"
+  }
+}
